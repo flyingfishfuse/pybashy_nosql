@@ -2,8 +2,8 @@
 ####                    TESTING EXEC POOL NOW                       ####
 ###             # NEVER FEAR, THE END IS FUCKING NEAR!#              ###
 ########################################################################
-import pybashy.pybashy_no_sqlalchemy
-from pybashy.pybashy_no_sqlalchemy import *
+import pybashy_no_sqlalchemy
+from pybashy_no_sqlalchemy import *
 cmdstrjson = {'ls_etc' : { "command": "ls -la /etc","info_message":"[+] Info Text","success_message" : "[+] Command Sucessful", "failure_message" : "[-] ls -la Failed! Check the logfile!"},'ls_home' : { "command" : "ls -la ~/","info_message" : "[+] Info Text","success_message" : "[+] Command Sucessful","failure_message" : "[-] ls -la Failed! Check the logfile!"}}
 exec_pool          = ExecutionPool()
 module_set         = ModuleSet('test1')
@@ -30,7 +30,7 @@ try:
         # feed it JUST the command str
         blueprint("exec_pool.exec_command(exec_pool.test1.ls_la.cmd_line)")
         greenprint("=======================================")
-        exec_pool.exec_command(exec_pool.test.ls_la.cmd_line)
+        exec_pool.exec_command(exec_pool.test1.ls_home.cmd_line)
         greenprint("=======================================")
         critical_message('[+] TEST FUNCTION : ls -la ./')
         #run the whole functionset()
