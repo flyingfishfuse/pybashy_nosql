@@ -1,58 +1,26 @@
 # -*- coding: utf-8 -*-
-################################################################################
-##            debootstrapy - a linux tool for using debootstrap                  ##
-################################################################################
-# Copyright (c) 2020 Adam Galindo                                              ##
-#                                                                              ##
-# Permission is hereby granted, free of charge, to any person obtaining a copy##
-# of this software and associated documentation files (the "Software"),to deal##
-# in the Software without restriction, including without limitation the rights##
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell   ##
-# copies of the Software, and to permit persons to whom the Software is          ##
-# furnished to do so, subject to the following conditions:                      ##
-#                                                                              ##
-# Licenced under GPLv3                                                          ##
-# https://www.gnu.org/licenses/gpl-3.0.en.html                                  ##
-#                                                                              ##
-# The above copyright notice and this permission notice shall be included in  ##
-# all copies or substantial portions of the Software.                          ##
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-####
-################################################################################
 
 """
-This is a test of the command framework
-
-It will do some disk operations necessary for usb live installs
+This will do disk operations 
+  Necessary Lib for SANDBOX!
 
 """
-import os
-import sys
-import pathlib
-import subprocess
-from pathlib import Path
+#import os
+#import sys
+#import pathlib
+#import subprocess
+#from pathlib import Path
 
-__author__ = 'Adam Galindo'
-__email__ = 'null@null.com'
-__version__ = '1'
-__license__ = 'GPLv3'
-
-class DiskOperations:
-    '''
-    Does disk stuff
-    '''
-    def __init__(self, kwargs):
-        for (k, v) in kwargs.items():
-            setattr(self, k, v)
+#class DiskOperations:
+#    '''
+#    Does disk stuff
+#    '''
+#    def __init__(self, kwargs):
+#        for (k, v) in kwargs.items():
+#            setattr(self, k, v)
         
-    def setup_disk_for_liveusb(self, diskname, efi_dir, persistance_dir, temp_boot_dir, live_disk_dir):
+#def setup_disk_for_liveusb(self, diskname, efi_dir, persistance_dir, temp_boot_dir, live_disk_dir):
+def function_setup_disk_for_liveusb(diskname, efi_dir, persistance_dir, temp_boot_dir, live_disk_dir):
         # This creates the basic disk structure of an EFI disk with a single OS.
         # You CAN boot .ISO Files from the persistance partition if you mount in GRUB2 
         ## EFI
@@ -92,13 +60,14 @@ class DiskOperations:
                 ["mkfs.ext4 -F -L persistence /dev/{}3".format(diskname),
                 '[+] Success','[-] Failure'],
                 }
-        stepper = Stepper.step(steps)
-        if isinstance(stepper, Exception):
-            error_exit("[-] Disk Formatting Failed! Check the logfile!", stepper)
-        else:
-            greenprint("[+] Disk Formatting Finished Sucessfully!")
+        #stepper = Stepper.step(steps)
+        #if isinstance(stepper, Exception):
+        #    error_exit("[-] Disk Formatting Failed! Check the logfile!", stepper)
+        #else:
+        #    greenprint("[+] Disk Formatting Finished Sucessfully!")
 
-    def move_system_files(self, efi_dir, live_disk_dir,persistance_dir,file_source_dir):
+#    def move_system_files(self, efi_dir, live_disk_dir,persistance_dir,file_source_dir):
+def function_move_system_files(efi_dir, live_disk_dir,persistance_dir,file_source_dir):
         # Creating Temporary work directories
         steps = { 'make_directories'  : 
                     ["mkdir {} {} {} {}".format(efi_dir, live_disk_dir ,persistance_dir, file_source_dir),
@@ -119,21 +88,22 @@ class DiskOperations:
                     ["cp -ar {}/* {}".format(file_source_dir, live_disk_dir) ,
                     '[+] Success','[-] Failure']  
                 }
-        stepper = Stepper.step(steps)
-        if isinstance(stepper, Exception):
-            self.info_message("[+] File Moving Finished Sucessfully!")
-        else:
-            error_exit("[-] File Moving Failed! Check the logfile!", stepper)
+        #stepper = Stepper.step(steps)
+        #if isinstance(stepper, Exception):
+        #info_message("[+] File Moving Finished Sucessfully!")
+        #else:
+        #error_exit("[-] File Moving Failed! Check the logfile!", stepper)
 
-    def establish_usb_persistance(self):
+#    def establish_usb_persistance(self):
+def function_establish_usb_persistance():
         # IMPORTANT! This establishes persistance! UNION is a special mounting option 
         # https://unix.stackexchange.com/questions/282393/union-mount-on-linux
         steps = {'persistance' :
                 ['echo "/ union" > {}/persistence.conf'.format(persistance_dir),
                  '[+] Persistance Established' , '[-] Persistance Failed!']
                 }
-        stepper = Stepper.step(steps=steps)
-        if isinstance(stepper, Exception):
-            print("")
-        else:
-            error_exit("", stepper)
+        #stepper = Stepper.step(steps=steps)
+        #if isinstance(stepper, Exception):
+#        print("")
+        #else:
+        #    error_exit("", stepper)
