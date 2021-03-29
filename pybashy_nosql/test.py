@@ -5,15 +5,19 @@ This is a most basic example of the command framework
     - you import this file with :
         
         ep = ExecutionPool()
-        new_command = CommandRunner(exec_pool = ep )
-        new_command.dynamic_import('test')
+        module_set = CommandRunner(exec_pool = ep )
+        module_set.dynamic_import('test')
+        >>> isinstance(module_set, ModuleSet())
+        >>> True        
 
     - All functions become thier own FunctionSet(CommandSet())
         >>> isinstance(new_command, FunctionSet())
         >>> True
         
         - from "steps" to "failure_message" is considered a CommandSet()
+        - It may also, coincidentally, be a SET OF ONE Command()
         - All "steps" are turned into Command() 's 
+            - Command() ALSO has the "step/info/success/fail" schema
     
     - Command()'s stored in CommandSet()'s
     - All CommandSet()'s are added to ExecutionPool()
@@ -54,7 +58,7 @@ __name__  = "CommandTestModule"
 # is considered a CommandSet() 
 # only one set like this allowed, I guess this would be used for setup operations 
 # and teardown staging
-
+ 
 # OK WE ARE CHANGING IT ALL TO JSON FUCK IT ALL
 steps = {
            'ls_etc' : { "command"         : "ls -la /etc" ,
@@ -141,10 +145,7 @@ def function_test_function2(params):
 
 class TestCommand1():
     '''
-    everything gets preprocessed remember.
-    When it's imported dynamically, this class 
-    MUST be complete.
-    Functions do not need be prepended with "function"
+    This extra layer of abstraction incorporating Classes is not functional yet
     '''
     def __init__(self):
         self.steps = {
