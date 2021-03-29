@@ -1,16 +1,7 @@
 # -*- coding: utf-8 -*-
 ################################################################################
 ##                Pybashy : NoSQL Edition - Vintage 2021 Python 3.8           ##
-################################################################################
-# Copyright (c) 2020 Adam Galindo                                             ##
-#                                                                             ##
-# Permission is hereby granted, free of charge, to any person obtaining a copy##
-# of this software and associated documentation files (the "Software"),to deal##
-# in the Software without restriction, including without limitation the rights##
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell   ##
-# copies of the Software, and to permit persons to whom the Software is       ##
-# furnished to do so, subject to the following conditions:                    ##
-#                   
+################################################################################                
 #  YOU HAVE TO PROVIDE THE MODULES YOU CREATE AND THEY MUST FIT THE SPEC      ##
 #                                   
 #     You can fuck up the backend all you want but if I can't run the module 
@@ -18,7 +9,7 @@
 #     terms of the GPLv3 and open source all modified code so I can see 
 #     what's going on. 
 # 
-# Licenced under GPLv3-modified                                                        ##
+# Licenced under GPLv3-modified                                               ##
 # https://www.gnu.org/licenses/gpl-3.0.en.html                                ##
 #                                                                             ##
 # The above copyright notice and this permission notice shall be included in  ##
@@ -31,24 +22,17 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-####
 ################################################################################
 """
 This pybashy file uses the following configuration
 
     pybashy spec:
-        - flask-sqlalchemy class definitions for entities
+        - 
         - no config file
         - no argparser
         - monolithic
 
 """
-__author__     = 'Adam Galindo'
-__email__     = 'null@null.com'
-__version__ = '1'
-__license__ = 'GPLv3' + " extras"
-
-
 
 TESTING = True
 import sys,os
@@ -59,12 +43,6 @@ import traceback
 import subprocess
 from pathlib import Path
 from importlib import import_module
-from sqlalchemy import create_engine
-from sqlalchemy import inspect
-from sqlalchemy.pool import StaticPool
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy_utils import database_exists
-from flask import Flask, render_template, Response, Request ,Config
 
 try:
     import colorama
@@ -80,6 +58,8 @@ except ImportError as derp:
 ################################################################################
 ##############                      VARS                       #################
 ################################################################################
+basic_items  = ['__name__', 'steps','success_message', 'failure_message', 'info_message']
+
 LOGLEVEL            = 'DEV_IS_DUMB'
 LOGLEVELS           = [1,2,3,'DEV_IS_DUMB']
 log_file            = 'pybashy'
@@ -87,9 +67,6 @@ logging.basicConfig(filename=log_file, format='%(asctime)s %(message)s', filemod
 logger              = logging.getLogger()
 script_cwd          = Path().absolute()
 script_osdir        = Path(__file__).parent.absolute()
-db_is_initialized   = bool
-db_is_populated     = bool
-test_commit_result  = bool
 
 redprint          = lambda text: print(Fore.RED + ' ' +  text + ' ' + Style.RESET_ALL) if (COLORMEQUALIFIED == True) else print(text)
 blueprint         = lambda text: print(Fore.BLUE + ' ' +  text + ' ' + Style.RESET_ALL) if (COLORMEQUALIFIED == True) else print(text)
@@ -136,8 +113,6 @@ Lists modules in command_set directory
         print(filez.name)
         list_of_modules.append(filez.name)
     return list_of_modules
-
-basic_items  = ['__name__', 'steps','success_message', 'failure_message', 'info_message']
 
 class Command():
     def __init__(self, cmd_name , command_struct):
@@ -193,12 +168,9 @@ class FunctionSet(CommandSet):
         self.__qualname__ = self.__name__
         
     def __repr__(self):
-         makeyellow("HI! I AM A FunctionSet() ")
+         makeyellow("FunctionSet() ")
 
 class ModuleSet(CommandSet):
-    ''' This is the class that gets multiple CommandSet() assignments
-    assigned to it. It is a python representation of the input file JSON.
-    Remember, python will change things in that file as it loads it'''
     def __init__(self,new_module_name):
         '''this is a ModuleSet() '''
         self.name         = new_module_name
@@ -206,13 +178,27 @@ class ModuleSet(CommandSet):
         self.__qualname__ = self.__name__
 
     def __repr__(self):
-        makeyellow("HI! I AM A ModuleSet() named : {}".format(self.name))
+        makeyellow("ModuleSet() named : {}".format(self.name))
 
     def add_function(self, function_set : FunctionSet):
         function_name = function_set.name
         greenprint("INTERNAL: ModuleSet().add_function(FunctionSet())")
         print(function_set.name)
         setattr(self, function_name, function_set)
+
+class GenPerp_threader():
+    '''
+    General Purpose threading implementation that accepts a generic programmatic entity
+    '''
+    def __init__(self,function_to_thread):
+        self.thread_function = function_to_thread
+        self.function_name   = getattr(self.thread_function.__name__)
+
+    def threader(self, thread_function, name):
+        info_message("Thread {}: starting".format(self.function_name))
+        thread = threading.Thread(target=self.thread_function, self.function_name)
+        thread.start()
+        info_message("Thread {}: finishing".format(name))
 
 class ExecutionPool():
     def __init__(self):
@@ -240,9 +226,6 @@ class ExecutionPool():
 
     def run_function(self,command_set, function_to_run ):
         '''
-        Feed it a CommandSet object and function name
-        Remember, everything is strings in dicts until runtime
-        ... Actually... thats pretty much all of python lol
         '''
         try:
             #requesting a specific Command()
@@ -296,7 +279,7 @@ In a variable named spiffy
 
     '''
     def __init__(self, exec_pool : ExecutionPool):
-        '''dooo eeeetttt'''
+        ''''''
 
     def get_stuff(self, file_import):
         '''asdf'''
